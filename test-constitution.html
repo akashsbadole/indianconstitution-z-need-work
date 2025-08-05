@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Constitution Tab Test</title>
+</head>
+<body>
+    <h1>Testing Constitution Tab</h1>
+    <p>If you can see this page, the server is running. Let's test the Constitution API:</p>
+    
+    <div id="results"></div>
+    
+    <script>
+        // Test Constitution load API
+        fetch('http://localhost:3000/api/constitution/load')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Constitution load result:', data);
+                document.getElementById('results').innerHTML += '<h2>Constitution Load Test</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            })
+            .catch(error => {
+                console.error('Error testing Constitution load:', error);
+                document.getElementById('results').innerHTML += '<h2>Error</h2><p>Failed to load Constitution data: ' + error.message + '</p>';
+            });
+        
+        // Test Constitution search API
+        fetch('http://localhost:3000/api/constitution/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query: 'fundamental rights',
+                limit: 3
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Constitution search result:', data);
+            document.getElementById('results').innerHTML += '<h2>Constitution Search Test</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+        })
+        .catch(error => {
+            console.error('Error testing Constitution search:', error);
+            document.getElementById('results').innerHTML += '<h2>Error</h2><p>Failed to search Constitution: ' + error.message + '</p>';
+        });
+    </script>
+</body>
+</html>
